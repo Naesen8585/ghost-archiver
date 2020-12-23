@@ -57,4 +57,4 @@ def executeUpload(username,password,videopath,thumbnailpath,title,description):
     loop = asyncio.get_event_loop()
     loop.run_until_complete(uploadToBitChuteAction(username,password,videopath,thumbnailpath,title,description))
     os.remove(thumbnailpath)
-    os.remoe(videopath)
+    os.remove(videopath)

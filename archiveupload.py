@@ -3,12 +3,11 @@ This one will use multiprocessing to handle the uploads from youtube and the gho
 """
 
 import tgsArchiver
-import threading
 import getpass
 import videoFinder
 import time
 import random
-
+import multiprocessing
 DBNAME="./ghost.sqlite"
 myuser=input("Enter bitchute username > ")
 mypass=getpass.getpass("Enter bitchute password >")
@@ -16,8 +15,8 @@ mypass=getpass.getpass("Enter bitchute password >")
 tcrlist=videoFinder.getTCRLinks()
 tgslist=videoFinder.getTGSLinks()
 
-tgsthread=threading.Thread(target=tgsArchiver.archivetoBitChute,args=(tgslist,myuser,mypass,DBNAME))
-tcrthread=threading.Thread(target=tgsArchiver.archivetoBitChute,args=(tcrlist,myuser,mypass,DBNAME))
+tgsthread=multiprocessing.Process(target=tgsArchiver.archivetoBitChute,args=(tgslist,myuser,mypass,DBNAME))
+tcrthread=multiprocessing.Process(target=tgsArchiver.archivetoBitChute,args=(tcrlist,myuser,mypass,DBNAME))
 
 def watcherthread(myuser,mypass,DBNAME):
     while True:
@@ -27,7 +26,7 @@ def watcherthread(myuser,mypass,DBNAME):
         print("Waiting for "+str(hourstosleep)+" hours...")
         time.sleep(3600*(random.randint(6,24)))
 
-checkerthread=threading.Thread(target=watcherthread,args=(myuser,mypass,DBNAME))
+checkerthread=multiprocessing.Process(target=watcherthread,args=(myuser,mypass,DBNAME))
 
 tgsthread.start()
 tcrthread.start()
