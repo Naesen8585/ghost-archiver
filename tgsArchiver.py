@@ -12,6 +12,7 @@ import hashlib
 import glob
 import uploader
 import getpass
+import os
 #DBNAME="./tgsdb.sqlite"
 
 def archivetoBitChute(urlList,myuser,mypass,DBNAME):
@@ -29,5 +30,5 @@ def archivetoBitChute(urlList,myuser,mypass,DBNAME):
             vidname = filestring.replace("_", " ")
             uploader.executeUpload(myuser, mypass, finalfilename, thumbnailpath, vidname, vidname)
             updatedb(DBNAME, hash)
-
-
+        else:
+            os.remove(finalfilename)
