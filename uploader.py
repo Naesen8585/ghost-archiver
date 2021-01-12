@@ -46,12 +46,18 @@ def generateThumbnail(moviepath):
     return imgpath
 
 async def uploadToBitChuteAction(username, password, videopath, thumbnailpath, title, description):
-  async with bc.Client() as client:
-    await client.login(username, password)
-    await client.upload(
-        bc.Media.from_file(videopath),
-        cover=bc.Media.from_file(thumbnailpath),
-        title=title, description=description)
+    async with bc.Client() as client:
+        while True:
+            try:
+                await client.login(username, password)
+                await client.upload(
+                    bc.Media.from_file(videopath),
+                    cover=bc.Media.from_file(thumbnailpath),
+                    title=title, description=description)
+                break
+            except asyncio.TimeoutError:
+                print("Timeout error...trying again")
+                time.sleep(5)
 
 def executeUpload(username,password,videopath,thumbnailpath,title,description):
     loop = asyncio.get_event_loop()

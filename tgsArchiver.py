@@ -12,15 +12,22 @@ import hashlib
 import glob
 import uploader
 import getpass
-import os
+import time
 #DBNAME="./tgsdb.sqlite"
 
 def archivetoBitChute(urlList,myuser,mypass,DBNAME):
     #tableGenerator(DBNAME)
     #urlList = vidlistmaker
     for url in urlList:
-        viddata = downloader(url)
-        filestring = viddata.hookdata['filename'].split('.')[0]
+        while True:
+            try:
+                viddata = downloader(url)
+                filestring = viddata.hookdata['filename'].split('.')[0]
+                break
+            except Exception as e:
+                print(e)
+                time.sleep(10)
+
         finalfilename = None
         for file in glob.glob("./" + filestring + "*"):
             finalfilename = file
@@ -30,5 +37,3 @@ def archivetoBitChute(urlList,myuser,mypass,DBNAME):
             vidname = filestring.replace("_", " ")
             uploader.executeUpload(myuser, mypass, finalfilename, thumbnailpath, vidname, vidname)
             updatedb(DBNAME, hash)
-        else:
-            os.remove(finalfilename)
