@@ -55,11 +55,20 @@ def getTCRLinks(url="https://www.youtube.com/channel/UClQQG1iLihNl54y1ifRUEYQ/vi
     driver.get(url)
     time.sleep(5)
     #now we have to enumerate all the videos on this playlist...
-    for i in range(0,50000,300):
-        time.sleep(.01)
-        #print(i)
-        #time.sleep(5)
-        driver.execute_script("window.scrollTo(0,"+str(i)+")")
+
+    height = driver.execute_script("return document.documentElement.scrollHeight")
+    previousHeight = -1
+
+    while previousHeight < height:
+        startheight=previousHeight
+        previousHeight = height
+        for i in range(startheight,height+5000,50):
+            time.sleep(.01)
+            # print(i)
+            # time.sleep(5)
+            driver.execute_script("window.scrollTo(0," + str(i) + ")")
+        height = driver.execute_script("return document.documentElement.scrollHeight")
+
     html=driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
     driver.quit()
