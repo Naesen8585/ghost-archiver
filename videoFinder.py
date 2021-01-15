@@ -10,6 +10,7 @@ from selenium.webdriver.chrome.options import Options
 import chromedriver_binary
 from bs4 import BeautifulSoup
 import time
+import youtube_dl
 import requests
 
 def getTGSLinks(url="https://archive.org/download/theghostshow_202003"):
@@ -45,36 +46,21 @@ def getLinks(url="https://dlive.tv/ghostpolitics"):
     return returnlist
 
 
-def getTCRLinks(url="https://www.youtube.com/channel/UClQQG1iLihNl54y1ifRUEYQ/videos"):
+def getTCRLinks(yt_url="https://www.youtube.com/channel/UClQQG1iLihNl54y1ifRUEYQ/videos"):
     vidlist=[]
-    options = webdriver.ChromeOptions()
-    options.add_argument("--incognito")
-    options.add_argument("--ignore_certificate_errors")
-    options.add_argument("--headless")
-    driver = webdriver.Chrome(chrome_options=options)
-    driver.get(url)
-    time.sleep(5)
-    #now we have to enumerate all the videos on this playlist...
+    ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s', 'quiet': True, })
+    vidlist=[]
+    with ydl:
+        result = ydl.extract_info \
+            (yt_url,
+             download=False)  # We just want to extract the info
+        if 'entries' in result:
+            for i, item in enumerate(result['entries']):
+                finalurl = result['entries'][i]
+                vidlist.append(finalurl)['webpage_url']
+        else:
+            vidlist.append(result)['webpage_url']
 
-    height = driver.execute_script("return document.documentElement.scrollHeight")
-    previousHeight = -1
 
-    while previousHeight < height:
-        startheight=previousHeight
-        previousHeight = height
-        for i in range(startheight,height+5000,50):
-            time.sleep(.01)
-            # print(i)
-            # time.sleep(5)
-            driver.execute_script("window.scrollTo(0," + str(i) + ")")
-        height = driver.execute_script("return document.documentElement.scrollHeight")
-
-    html=driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    driver.quit()
-    mylinks = soup.find_all('a', attrs={'id': 'video-title'})
-    for link in mylinks:
-        if "TRUE CAPITALIST RADIO" in str(link.attrs['title']).upper() or "TRUE CONSERVATIVE RADIO" in str(link.attrs['title']).upper():
-            vidlist.append("https://www.youtube.com"+str(link.attrs['href']))
     return vidlist
     #return mylinks
