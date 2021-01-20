@@ -4,7 +4,6 @@ This will handle the database ops for the archiver
 
 import sqlitedict
 import sys
-import time
 sys.setrecursionlimit(1500)
 
 def tableGenerator(dbname):

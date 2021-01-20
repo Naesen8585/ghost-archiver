@@ -6,11 +6,11 @@ This will focus on transferring all of the existing TGS shows from the archive t
 
 import requests
 from bs4 import BeautifulSoup
-from vidDownloader import *
-from dbmanager import *
+from ghost_archiver.vidDownloader import *
+from ghost_archiver.dbmanager import *
 import hashlib
 import glob
-import uploader
+import ghost_archiver.uploader as uploader
 import getpass
 import time
 import os
