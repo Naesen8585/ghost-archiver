@@ -3,11 +3,9 @@ In here we need to get the live links from the DLive "replays" tab. then return 
 
 """
 
-from selenium import webdriver
+
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options
-import chromedriver_binary
+import webdriver_selector
 from bs4 import BeautifulSoup
 import time
 import youtube_dl
@@ -26,11 +24,8 @@ def getTGSLinks(url="https://archive.org/download/theghostshow_202003"):
     return linklist
 
 def getLinks(url="https://dlive.tv/ghostpolitics"):
-    options = webdriver.ChromeOptions()
-    options.add_argument("--incognito")
-    options.add_argument("--ignore_certificate_errors")
-    options.add_argument("--headless")
-    driver=webdriver.Chrome(chrome_options=options)
+
+    driver=webdriver_selector(chosendriver="chrome").driver
     driver.get(url)
     time.sleep(5)
     #get the replays link...

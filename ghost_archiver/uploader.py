@@ -7,19 +7,18 @@ general idea: leverage selenium, as bitchute does not have an API, they are prob
 """
 import asyncio
 import bitchute_client as bc
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+import webdriver_selector
 import random
 import time
 import uuid
 from moviepy.editor import *
+import os
+
 def login_to_bitchute(email,password):
     url = "https://www.bitchute.com/accounts/login/"
-    options = webdriver.ChromeOptions()
-    options.add_argument("--incognito")
-    options.add_argument("--ignore_certificate_errors")
-    #options.add_argument("--headless")
-    driver = webdriver.Chrome(chrome_options=options)
+
+    driver = webdriver_selector.selector(chosendriver="chrome").driver
     driver.get(url)
     #driver.find_element(By.LINK_TEXT, "Login").click()
     foundelement=False

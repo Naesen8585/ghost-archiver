@@ -22,7 +22,7 @@ def watcherprocess(myuser,mypass,DBNAME):
     while True:
         dlivelinks=vf.getLinks()
         ta.archivetoBitChute(dlivelinks,myuser,mypass,DBNAME)
-        hourstosleep=12
+        hourstosleep=6
         print("Waiting for "+str(hourstosleep)+" hours...")
         time.sleep(3600*(hourstosleep))
 

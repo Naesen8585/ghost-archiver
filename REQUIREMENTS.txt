@@ -1,1 +1,2 @@
 https://gitlab.com/l-hex/bitchute-client-python/-/archive/master/bitchute-client-python-master.tar
+https://github.com/sean-bailey/webdriver_selector/archive/main.zip
