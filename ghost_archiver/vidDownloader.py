@@ -12,6 +12,7 @@ class downloader:
             'progress_hooks': [self.my_hook],
             'restrictfilenames': 1,
             'nocheckcertificate': 1,  # for bitchute compatibility
+            'ignoreerrors' : True,
         }
         self.url=url
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:

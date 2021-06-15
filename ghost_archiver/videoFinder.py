@@ -43,7 +43,7 @@ def getLinks(url="https://dlive.tv/ghostpolitics"):
 
 def getTCRLinks(yt_url="https://www.youtube.com/channel/UClQQG1iLihNl54y1ifRUEYQ/videos"):
     vidlist=[]
-    ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s', 'quiet': True, })
+    ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s', 'quiet': True, 'ignoreerrors': True, })
     vidlist=[]
     with ydl:
         result = ydl.extract_info \
