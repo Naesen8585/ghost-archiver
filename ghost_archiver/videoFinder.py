@@ -54,7 +54,8 @@ def getTCRLinks(yt_url="https://www.youtube.com/channel/UClQQG1iLihNl54y1ifRUEYQ
                 finalurl = result['entries'][i]
                 vidlist.append(finalurl['webpage_url'])
         else:
-            vidlist.append(result['webpage_url'])
+            if 'webpage_url' in result:
+                vidlist.append(result['webpage_url'])
 
 
     return vidlist
